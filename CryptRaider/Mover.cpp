@@ -3,6 +3,8 @@
 
 #include "Mover.h"
 
+#include "Math/UnrealMathUtility.h"
+
 // Sets default values for this component's properties
 UMover::UMover()
 {
@@ -19,7 +21,7 @@ void UMover::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
+	OriginalLocation = GetOwner()->GetActorLocation();
 	
 }
 
@@ -29,12 +31,22 @@ void UMover::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponent
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	AActor* Owner = GetOwner();
-	FString Name = Owner->GetActorNameOrLabel();
-	FVector VLocation = Owner->GetActorLocation();
-	FString Location = VLocation.ToCompactString();
+	if (ShouldMove == true) {
+		FVector CurrentLocation = GetOwner()->GetActorLocation();
+		FVector TargetLocation = OriginalLocation + MoveOffset;
+		float MoveSpeed = FVector::Distance(OriginalLocation, TargetLocation) / MoveTime;
 
-	UE_LOG(LogTemp, Display, TEXT("Mover address: %s"), *Location);
-	UE_LOG(LogTemp, Display, TEXT("Mover address: %s"), *Name);
+		FVector NewLocation = FMath::VInterpConstantTo(CurrentLocation, TargetLocation, DeltaTime, MoveSpeed);
+		GetOwner()->SetActorLocation(NewLocation);
+	};
+
+	if (ShouldRotate == true) {
+		FRotator CurrentRotation = GetOwner()->GetActorRotation();
+		FRotator TargetRotation = OriginalRotation + RotationOffset;
+		float RotationSpeed = FMath::Abs(CurrentRotation.Roll - TargetRotation.Roll) / RotationTime;
+
+		FRotator NewRotation = FMath::RInterpConstantTo(CurrentRotation, TargetRotation, DeltaTime, RotationSpeed);
+		GetOwner()->SetActorRotation(NewRotation);
+	};
 }
 
