@@ -31,7 +31,7 @@ void UMover::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponent
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (ShouldMove == true) {
+	if (bShouldMove == true) {
 		FVector CurrentLocation = GetOwner()->GetActorLocation();
 		FVector TargetLocation = OriginalLocation + MoveOffset;
 		float MoveSpeed = FVector::Distance(OriginalLocation, TargetLocation) / MoveTime;
@@ -40,10 +40,10 @@ void UMover::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponent
 		GetOwner()->SetActorLocation(NewLocation);
 	};
 
-	if (ShouldRotate == true) {
+	if (bShouldRotate == true) {
 		FRotator CurrentRotation = GetOwner()->GetActorRotation();
 		FRotator TargetRotation = OriginalRotation + RotationOffset;
-		float RotationSpeed = FMath::Abs(CurrentRotation.Roll - TargetRotation.Roll) / RotationTime;
+		float RotationSpeed = RotationTime;
 
 		FRotator NewRotation = FMath::RInterpConstantTo(CurrentRotation, TargetRotation, DeltaTime, RotationSpeed);
 		GetOwner()->SetActorRotation(NewRotation);
