@@ -2,6 +2,7 @@
 
 
 #include "Grabber.h"
+#include "Engine/World.h"
 
 // Sets default values for this component's properties
 UGrabber::UGrabber()
@@ -9,8 +10,6 @@ UGrabber::UGrabber()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
 }
 
 
@@ -18,9 +17,6 @@ UGrabber::UGrabber()
 void UGrabber::BeginPlay()
 {
 	Super::BeginPlay();
-
-	UE_LOG(LogTemp, Warning, TEXT("booting up the boi"));
-	
 }
 
 
@@ -29,8 +25,12 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	FRotator Rotation = GetComponentRotation();
-	FString SRotation = Rotation.ToCompactString();
-	UE_LOG(LogTemp, Display, TEXT("component rotation: %s"), *SRotation);
+	FRotator MyRotation = GetComponentRotation();
+	FString Rotation = MyRotation.ToCompactString();
+	UE_LOG(LogTemp, Display, TEXT("component rotation: %s"), *Rotation);
+
+	float Time = GetWorld()->TimeSeconds;
+
+	UE_LOG(LogTemp, Display, TEXT("time passes: %f"), Time);
 }
 
