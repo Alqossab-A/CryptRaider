@@ -1,8 +1,7 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "Grabber.h"
+
 #include "Engine/World.h"
+#include "DrawDebugHelpers.h"
 
 // Sets default values for this component's properties
 UGrabber::UGrabber()
@@ -19,18 +18,12 @@ void UGrabber::BeginPlay()
 	Super::BeginPlay();
 }
 
-
-// Called every frame
-void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	FRotator MyRotation = GetComponentRotation();
-	FString Rotation = MyRotation.ToCompactString();
-	UE_LOG(LogTemp, Display, TEXT("component rotation: %s"), *Rotation);
-
-	float Time = GetWorld()->TimeSeconds;
-
-	UE_LOG(LogTemp, Display, TEXT("time passes: %f"), Time);
+ // Called every frame 
+void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) 
+{ 
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction); 
+	FVector Start = GetComponentLocation(); 
+	FVector End = Start + GetForwardVector() * MaxGrabDistance; 
+	DrawDebugLine(GetWorld(), Start, End, FColor::Red);
 }
 
