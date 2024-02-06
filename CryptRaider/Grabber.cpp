@@ -21,9 +21,14 @@ void UGrabber::BeginPlay()
  // Called every frame 
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) 
 { 
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction); 
-	FVector Start = GetComponentLocation(); 
-	FVector End = Start + GetForwardVector() * MaxGrabDistance; 
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	FVector Start = GetComponentLocation();
+	FVector End = Start + GetForwardVector() * MaxGrabDistance;
 	DrawDebugLine(GetWorld(), Start, End, FColor::Red);
+
+	float Damage = 0;
+	float& DamageRef = Damage;
+	DamageRef = 2; 
+	UE_LOG(LogTemp, Display, TEXT("Damage: %f, DamageRef: %f"), Damage, DamageRef);
 }
 
