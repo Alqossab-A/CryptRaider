@@ -27,8 +27,11 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	DrawDebugLine(GetWorld(), Start, End, FColor::Red);
 
 	float Damage = 0;
-	float& DamageRef = Damage;
-	DamageRef = 2; 
-	UE_LOG(LogTemp, Display, TEXT("Damage: %f, DamageRef: %f"), Damage, DamageRef);
+	PrintDamage(Damage);
+}
+
+void UGrabber::PrintDamage(float& Damage)
+{
+	UE_LOG(LogTemp, Display, TEXT("Damage: %"), Damage);
 }
 
